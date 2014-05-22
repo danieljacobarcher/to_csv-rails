@@ -7,7 +7,7 @@ class Array
     options.reverse_merge!(:header => true)
     
     if options[:group]
-      group = Group.find_by(options[:group])
+      group = Group.find_by_token(options[:group])
     end
     #columns = self.first.class.content_columns # not include the ID column
     if options[:only]
@@ -16,7 +16,12 @@ class Array
       columns = self.first.class.column_names.map(&:to_sym) - Array(options[:except]).map(&:to_sym)
     end
 
-    return '' if columns.empty?
+    if columns.empty?
+      return ''
+    elsif options[:group]
+      columns = columns + group.info_1_title + group.info_2_title
+      raise columns.inspect
+    end
 
     data = []
     # header
