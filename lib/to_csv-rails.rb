@@ -34,8 +34,9 @@ class Array
         rescue
           ''
         end
+      data << obj.infos.where(group_id: group.id).info_1 if options[:group]
+      data << obj.infos.where(group_id: group.id).info_2 if options[:group]
       end.join(',')
-      data << self.infos.where(group_id: group.id).info_1+','+self.infos.where(group_id: group.id).info_2 if options[:group]
     end
     raise data.inspect
     data.join("\n")
