@@ -5,7 +5,10 @@ class Array
     return '' if self.empty?
 
     options.reverse_merge!(:header => true)
-
+    
+    if options[:group]
+      group = Group.find_by(options[:group])
+    end
     #columns = self.first.class.content_columns # not include the ID column
     if options[:only]
       columns = Array(options[:only]).map(&:to_sym)
