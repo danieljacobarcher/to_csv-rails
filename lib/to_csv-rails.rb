@@ -16,19 +16,14 @@ class Array
       columns = self.first.class.column_names.map(&:to_sym) - Array(options[:except]).map(&:to_sym)
     end
 
-    if columns.empty?
-      return ''
-    elsif options[:group]
-      columns << group.info_1_title
-      columns << group.info_2_title
-      raise columns.inspect
-    end
+    return '' if columns.empty?
 
     data = []
     # header
     if options[:header]
       header_columns = options[:header_columns].blank? ? columns.map(&:to_s).map(&:humanize) : options[:header_columns]
       data << header_columns.join(',')
+      data << group.info_1_title+','+group.info_2_title if options[:group]
     end
 
     self.each do |obj|
@@ -40,7 +35,9 @@ class Array
           ''
         end
       end.join(',')
+      data << self.infos.where(group_id: group.id).info_1+','+self.infos.where(group_id: group.id).info_2 if options[:group]
     end
+    raise data.inspect
     data.join("\n")
   end
 
