@@ -19,7 +19,8 @@ class Array
     if columns.empty?
       return ''
     elsif options[:group]
-      columns = columns + group.info_1_title + group.info_2_title
+      columns << group.info_1_title
+      columns << group.info_2_title
       raise columns.inspect
     end
 
