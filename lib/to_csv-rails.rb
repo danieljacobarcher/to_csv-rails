@@ -22,20 +22,26 @@ class Array
     # header
     if options[:header]
       header_columns = options[:header_columns].blank? ? columns.map(&:to_s).map(&:humanize) : options[:header_columns]
-      data << header_columns.join(',')
-      data << [group.info_1_title, group.info_2_title].join(',') if options[:group]
+      if options[:group]
+        data << (header_columns+[group.info_1_title, group.info_2_title]).join(',')
+      else
+        data << header_columns.join(',')
+      end
     end
-
+    
+    tempdata = []
+    
     self.each do |obj|
-      data << columns.map do |column|
+      tempdata << columns.map do |column|
         begin
           column_value = obj.send(column).to_s
           column_value.include?(",") ? "\"#{column_value}\"" : column_value
         rescue
           ''
         end
-      end.join(',')
-      data << [obj.infos.where(group_id: group.id)[0].info_1, obj.infos.where(group_id: group.id)[0].info_2].join(',') if options[:group]
+      end
+      tempdata << [obj.infos.where(group_id: group.id)[0].info_1, obj.infos.where(group_id: group.id)[0].info_2].join(',') if options[:group]
+      data << tempdata.join(',')
     end
     data.join("\n")
   end
