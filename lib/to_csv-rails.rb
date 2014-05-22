@@ -38,7 +38,6 @@ class Array
       data << obj.infos.where(group_id: group.id)[0].info_2 if options[:group]
       end.join(',')
     end
-    raise data.inspect
     data.join("\n")
   end
 
