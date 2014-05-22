@@ -23,7 +23,7 @@ class Array
     if options[:header]
       header_columns = options[:header_columns].blank? ? columns.map(&:to_s).map(&:humanize) : options[:header_columns]
       data << header_columns.join(',')
-      data << group.info_1_title+','+group.info_2_title if options[:group]
+      data << [group.info_1_title, group.info_2_title].join(',') if options[:group]
     end
 
     self.each do |obj|
@@ -34,9 +34,8 @@ class Array
         rescue
           ''
         end
-      data << obj.infos.where(group_id: group.id)[0].info_1 if options[:group]
-      data << obj.infos.where(group_id: group.id)[0].info_2 if options[:group]
       end.join(',')
+      data << [obj.infos.where(group_id: group.id)[0].info_1, obj.infos.where(group_id: group.id)[0].info_2].join(',') if options[:group]
     end
     data.join("\n")
   end
