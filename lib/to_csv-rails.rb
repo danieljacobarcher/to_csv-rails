@@ -40,7 +40,8 @@ class Array
           ''
         end
       end
-      tempdata << [obj.infos.where(group_id: group.id)[0].info_1, obj.infos.where(group_id: group.id)[0].info_2].join(',') if options[:group]
+      tempdata = tempdata + [obj.infos.where(group_id: group.id)[0].info_1, obj.infos.where(group_id: group.id)[0].info_2] if options[:group]
+      raise tempdata.inspect
       data << tempdata.join(',')
     end
     data.join("\n")
