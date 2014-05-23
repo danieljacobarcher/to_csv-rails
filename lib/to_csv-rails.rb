@@ -40,7 +40,8 @@ class Array
           ''
         end
       end
-      tempdata = tempdata + [obj.infos.where(group_id: group.id)[0].info_1, obj.infos.where(group_id: group.id)[0].info_2].to_a if options[:group]
+      tempdata << obj.infos.where(group_id: group.id)[0].info_1 if options[:group]
+      tempdata << obj.infos.where(group_id: group.id)[0].info_2 if options[:group]
       Rails.logger.info("*"*100)
       Rails.logger.info(tempdata)
       Rails.logger.info("*"*100)
