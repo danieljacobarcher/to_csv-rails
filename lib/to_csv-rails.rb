@@ -29,23 +29,16 @@ class Array
       end
     end
     
-    tempdata = []
-    
     self.each do |obj|
-      tempdata << columns.map do |column|
+      data << columns.map do |column|
         begin
           column_value = obj.send(column).to_s
           column_value.include?(",") ? "\"#{column_value}\"" : column_value
         rescue
           ''
         end
-      end
-      tempdata << obj.infos.where(group_id: group.id)[0].info_1 if options[:group]
-      tempdata << obj.infos.where(group_id: group.id)[0].info_2 if options[:group]
-      Rails.logger.info("*"*100)
-      Rails.logger.info(tempdata)
-      Rails.logger.info("*"*100)
-      data << tempdata.join(',')
+      end.join(',')
+      data << [obj.infos.where(group_id: group.id)[0].info_1, obj.infos.where(group_id: group.id)[0].info_2].join(',') if options[:group]
       Rails.logger.info("*"*100)
       Rails.logger.info(data)
       Rails.logger.info("*"*100)
