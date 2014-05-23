@@ -38,7 +38,7 @@ class Array
           ''
         end
       end
-      data << [obj.infos.where(group_id: group.id)[0].info_1, obj.infos.where(group_id: group.id)[0].info_2].join(',') if options[:group]
+      data << [obj.infos.where(group_id: group.id)[0].info_1, obj.infos.where(group_id: group.id)[0].info_2].join(',').to_s if options[:group]
       Rails.logger.info("*"*100)
       Rails.logger.info(data)
       Rails.logger.info("*"*100)
