@@ -38,9 +38,6 @@ class Array
           ''
         end
       end.join(",") + "," + obj.infos.where(group_id: group.id)[0].info_1+","+obj.infos.where(group_id: group.id)[0].info_2
-      Rails.logger.info("*"*100)
-      Rails.logger.info(data)
-      Rails.logger.info("*"*100)
     end
     data.join("\n")
   end
